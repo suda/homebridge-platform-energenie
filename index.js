@@ -15,7 +15,6 @@ function EnergeniePlatform(log, config) {
     self.log = log;
     self.commandQueue = new CommandQueue(self.config.delay ? self.config.delay : 500);
     if (config.persist_dir) {
-      self.log(config.persist_dir);
       storage.initSync({dir: config.persist_dir});
     }
 }

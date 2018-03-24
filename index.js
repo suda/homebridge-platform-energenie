@@ -44,7 +44,7 @@ function EnergenieAccessory(sw, log, config, commandQueue) {
 
     self.service.getCharacteristic(Characteristic.On).on('set', function(state, cb) {
         self.currentState = state;
-        storage.setItem(self.name + '-state', state);
+        storage.setItemSync(self.name + '-state', state);
         if(self.currentState) {
           if(self.sw.on.command === "on") {
             self.commandQueue.queue(function() {

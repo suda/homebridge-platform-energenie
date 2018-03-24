@@ -18,6 +18,8 @@ Configuration sample:
 
 `switches` is the list of the commands to send for turning sockets on/off.
 
+`persist_dir` is a folder which Homebridge can write to, if you would like to keep track of switch state between Homebridge restarts.
+
 Note: Some sockets may respond only to `on` commands and turning on/off is done by using different socket id (usually when `n` is for on then `n+1` is for off).
 
 
@@ -36,6 +38,7 @@ Note: Some sockets may respond only to `on` commands and turning on/off is done 
         {
           "platform": "Energenie",
           "name": "Energenie Platform",
+          "persist_dir": "/homebridge/node-persist",
           "delay": 500,
           "switches": [
                 {

@@ -1,6 +1,7 @@
 var Service, Characteristic, LastUpdate;
 var energenie = require("energenie");
 var CommandQueue = require('./lib/CommandQueue');
+var storage = require('node-persist');
 
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
@@ -13,6 +14,9 @@ function EnergeniePlatform(log, config) {
     self.config = config;
     self.log = log;
     self.commandQueue = new CommandQueue(self.config.delay ? self.config.delay : 500);
+    if (config.persist_dir) {
+      storage.initSync({dir: config.persist_dir});
+    }
 }
 EnergeniePlatform.prototype.accessories = function(callback) {
     var self = this;
@@ -30,7 +34,11 @@ function EnergenieAccessory(sw, log, config, commandQueue) {
     self.log = log;
     self.config = config;
     self.commandQueue = commandQueue;
-    self.currentState = false;
+    if (self.config.persist_dir) {
+      self.currentState = storage.getItemSync(self.name + '-state') || false;
+    } else {
+      self.currentState = false;
+    }
 
     self.service = new Service.Switch(self.name);
 
@@ -42,6 +50,9 @@ function EnergenieAccessory(sw, log, config, commandQueue) {
 
     self.service.getCharacteristic(Characteristic.On).on('set', function(state, cb) {
         self.currentState = state;
+        if (self.config.persist_dir) {
+          storage.setItemSync(self.name + '-state', state);
+        }
         if(self.currentState) {
           if(self.sw.on.command === "on") {
             self.commandQueue.queue(function() {

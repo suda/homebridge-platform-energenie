@@ -1,6 +1,6 @@
 {
     "name": "homebridge-platform-energenie",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "energenie plugin for homebridge: https://github.com/nfarina/homebridge",
     "license": "MIT",
     "keywords": [
@@ -18,6 +18,7 @@
         "homebridge": ">=0.2.0"
     },
     "dependencies": {
-        "energenie": "^0.1.1"
+        "energenie": "^0.1.1",
+        "node-persist": "^2.1.0"
     }
 }
